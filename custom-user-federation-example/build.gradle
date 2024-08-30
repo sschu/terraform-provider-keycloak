@@ -16,6 +16,10 @@ dependencies {
 	implementation "org.keycloak:keycloak-model-legacy:${keycloakVersion}"
 }
 
+shadowJar {
+	archiveClassifier.set('')
+}
+
 repositories {
     mavenCentral()
 }
