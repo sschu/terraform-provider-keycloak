@@ -1,23 +1,11 @@
-buildscript {
-	ext.kotlinVersion = '2.0.20'
-	ext.keycloakVersion = '19.0.2'
-	ext.shadowJarVersion = '8.3.0'
-
-    repositories {
-        mavenCentral()
-		gradlePluginPortal()
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
-		classpath "com.gradleup.shadow:shadow-gradle-plugin:${shadowJarVersion}"
-    }
+plugins {
+	id 'org.jetbrains.kotlin.jvm' version '2.0.20'
+	id 'com.gradleup.shadow' version '8.3.0'
+	id 'java-library'
 }
 
-apply {
-    plugin 'java'
-    plugin 'kotlin'
-    plugin 'com.gradleup.shadow'
+ext {
+	keycloakVersion = '19.0.2'
 }
 
 dependencies {
@@ -31,17 +19,7 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
 kotlin {
 	jvmToolchain(17)
-}
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
