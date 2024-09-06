@@ -13,6 +13,7 @@ import org.keycloak.storage.UserStorageProvider
 import org.keycloak.storage.adapter.AbstractUserAdapter
 import org.keycloak.storage.user.UserLookupProvider
 import java.util.*
+import java.util.stream.Stream
 
 class CustomUserStorageProvider(private val session: KeycloakSession, private val model: ComponentModel) :
         UserStorageProvider, UserLookupProvider, CredentialInputValidator, CredentialInputUpdater {
@@ -30,11 +31,11 @@ class CustomUserStorageProvider(private val session: KeycloakSession, private va
 
     // UserLookupProvider
 
-    override fun getUserByEmail(email: String, realm: RealmModel): UserModel? {
+    override fun getUserByEmail(realm: RealmModel, email: String): UserModel? {
         return null
     }
 
-    override fun getUserByUsername(username: String, realm: RealmModel): UserModel? {
+    override fun getUserByUsername(realm: RealmModel, username: String): UserModel? {
         val user = loadedUsers[username]
 
         if (user != null) {
@@ -60,11 +61,11 @@ class CustomUserStorageProvider(private val session: KeycloakSession, private va
         return null
     }
 
-    override fun getUserById(id: String, realm: RealmModel): UserModel? {
+    override fun getUserById(realm: RealmModel, id: String): UserModel? {
         val storageId = StorageId(id)
         val username = storageId.externalId
 
-        return getUserByUsername(username, realm)
+        return getUserByUsername(realm, username)
     }
 
     // CredentialInputValidator
@@ -87,11 +88,9 @@ class CustomUserStorageProvider(private val session: KeycloakSession, private va
         return password == input.value
     }
 
-    // CredentialInputUpdater
-
-    override fun getDisableableCredentialTypes(realm: RealmModel, user: UserModel): MutableSet<String> {
-        return Collections.EMPTY_SET as MutableSet<String>
-    }
+	override fun getDisableableCredentialTypesStream(realm: RealmModel, user: UserModel): Stream<String> {
+		return Stream.empty()
+	}
 
     override fun updateCredential(realm: RealmModel, user: UserModel, input: CredentialInput): Boolean {
         if (input.type == CredentialModel.PASSWORD) {
