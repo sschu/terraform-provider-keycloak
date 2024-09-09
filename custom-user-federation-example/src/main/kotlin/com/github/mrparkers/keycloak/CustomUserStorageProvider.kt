@@ -4,9 +4,10 @@ import org.keycloak.component.ComponentModel
 import org.keycloak.credential.CredentialInput
 import org.keycloak.credential.CredentialInputUpdater
 import org.keycloak.credential.CredentialInputValidator
-import org.keycloak.credential.CredentialModel
+import org.keycloak.models.credential.PasswordCredentialModel
 import org.keycloak.credential.LegacyUserCredentialManager
 import org.keycloak.models.*
+import org.keycloak.models.credential.*
 import org.keycloak.storage.ReadOnlyException
 import org.keycloak.storage.StorageId
 import org.keycloak.storage.UserStorageProvider
@@ -75,7 +76,7 @@ class CustomUserStorageProvider(private val session: KeycloakSession, private va
     }
 
     override fun supportsCredentialType(credentialType: String?): Boolean {
-        return credentialType.equals(CredentialModel.PASSWORD)
+        return credentialType.equals(PasswordCredentialModel.TYPE)
     }
 
     override fun isValid(realm: RealmModel, user: UserModel, input: CredentialInput): Boolean {
@@ -93,7 +94,7 @@ class CustomUserStorageProvider(private val session: KeycloakSession, private va
 	}
 
     override fun updateCredential(realm: RealmModel, user: UserModel, input: CredentialInput): Boolean {
-        if (input.type == CredentialModel.PASSWORD) {
+        if (input.type == PasswordCredentialModel.TYPE) {
             throw ReadOnlyException("Custom provider does not support password updating")
         }
 
