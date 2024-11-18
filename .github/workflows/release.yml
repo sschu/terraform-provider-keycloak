@@ -59,7 +59,7 @@ jobs:
       - name: GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
-          args: release --rm-dist --release-notes=${{ steps.build-release-notes.outputs.NOTES }}
+          args: release --clean --release-notes=${{ steps.build-release-notes.outputs.NOTES }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
