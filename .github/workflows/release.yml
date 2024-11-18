@@ -57,9 +57,8 @@ jobs:
           echo ::set-output name=NOTES::${tmp}/release-notes.md
 
       - name: GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v6
         with:
-          version: v0.179.0
           args: release --rm-dist --release-notes=${{ steps.build-release-notes.outputs.NOTES }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
