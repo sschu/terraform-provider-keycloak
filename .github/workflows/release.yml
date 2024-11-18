@@ -22,6 +22,7 @@ jobs:
       status: steps.wait.outputs.status
 
   release:
+    permissions: write-all
     needs:
       - wait
     runs-on: ubuntu-latest
